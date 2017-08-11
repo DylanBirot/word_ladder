@@ -1,5 +1,16 @@
 import re #importing regular expressions library
 
+#function which prompts user for dictionary name and handles FileNotFound exceptions
+
+def file_load():
+  while True:
+    try:
+      fname = input("Please enter the dictionary name: ")
+      return open(fname)
+    except FileNotFoundError:
+      print("\n\n The file name you have entered cannot be found -_- \n\n")
+
+
 def same(item, target):
   return len([item for (item, target) in zip(item, target) if item == target]) #returns number of letters and indexes in two words that match exactly
 
@@ -27,18 +38,14 @@ def find(word, words, seen, target, path):
       return True
     path.pop()
 
-def file_check():
-  while True:
-    try:
-      fname = input("Enter dictionary name: ")
-      return fname
-      break
-    except FileNotFoundError:
-      print("File not found, please try again")
-      return True
 
-file = open(file_check())
+
+
+
+file = file_load()
+
 lines = file.readlines()
+
 while True:
   start = input("Enter start word:")
   target = input("Enter target word:")
