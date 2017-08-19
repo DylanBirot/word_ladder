@@ -27,6 +27,9 @@ def find(word, words, seen, target, path):
     return False
   list = sorted([(same(w, target), w) for w in list], reverse=True) #MAKE A LIST OF UNCOMMON CHARACTERS TO EXCLUDE DURING THE SEARCH AND COMPARE INDEXES TO EXLUDE FROM SEARCH!!! 3 - 4 LINES AT MAX#creates a list of nested tuples with the match value returned from the same function
   for (match, item) in list: #iterating through the match and word pairs in list
+    for letter in uncommon:
+        if letter in item:
+            list.remove((match, item))
     if match >= len(target) - 1:
       if match == len(target) - 1: #is the final check to see if the next word is exactly the same as the target word. If it is then it appends that to the path and then breaks out of the function.
         path.append(item)
@@ -39,7 +42,16 @@ def find(word, words, seen, target, path):
     path.pop()
 
 
-
+def word_check(word):
+    while True:
+        start = input("Please enter start word:")
+        if word.isdigit():
+            print("Word cannot be a number")
+            return input("Enter a word:")
+            continue
+        elif word.isalpha():
+            start.replace(" ", "")
+            break
 
 
 file = file_load()
@@ -48,7 +60,11 @@ lines = file.readlines()
 
 while True:
   start = input("Enter start word:")
+  word_check(start)
   target = input("Enter target word:")
+  word_check(target)
+
+
   words = []
   for line in lines:
     word = line.rstrip()
