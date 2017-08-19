@@ -13,6 +13,7 @@ def file_load():
 
 
 
+
 def start_word_check():
     while True:
         word = input("Please enter start word:")
@@ -22,6 +23,7 @@ def start_word_check():
         elif word.isalpha():
             word.replace(" ", "")
             return word
+
 
 
 
@@ -38,9 +40,12 @@ def target_word_check():
 
 
 
+
+
 def forbidden_build():
-    list = []
-    words = input("Please insert a list of words seperated by commas \n\n\n\n Like this: \n\n\n head, mead, dead  ")
+    words = str(input("\n\n\nPlease insert a list of words seperated by commas of words that you want to be excluded from the laddergram.\n\n\n\nHere is an example of how to format your input: \n\nhead, mead, dead \n\n\n>>>")).replace(" ", "")
+    forbidden_words = words.split(',')
+    return forbidden_words
 
 
 
@@ -62,6 +67,7 @@ def path_selection():
             elif path == "s" or path == "S":
                 print("Awesome! You will be shown the SHORTEST path! \n\n")
                 return True
+
 
 
 
