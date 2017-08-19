@@ -11,21 +11,87 @@ def file_load():
       print("\n\n The file name you have entered cannot be found -_- \n\n")
 
 
+
+
+def start_word_check():
+    while True:
+        word = input("Please enter start word:")
+        if word.isdigit():
+            print("Word cannot be a number \n\n\n")
+            continue
+        elif word.isalpha():
+            word.replace(" ", "")
+            return word
+
+
+
+
+def target_word_check():
+    while True:
+        word = input("Please enter target word:")
+        if word.isdigit():
+            print("Word cannot be a number \n\n\n")
+            continue
+        elif word.isalpha():
+            word.replace(" ", "")
+            return word
+
+
+
+def forbidden_build():
+    list = []
+    words = input("Please insert a list of words seperated by commas \n\n\n\n Like this: \n\n\n head, mead, dead  ")
+
+
+
+
+
+def path_selection():
+    while True:
+        path = input("\n\n\nDo you want the shortest path or the longest path? Please input 'L' for the path or 'S' for the short path: \n\n >>>")
+        if len(path) != 1:
+            print("Please press L or S \n\n")
+            continue
+        elif path.isdigit():
+            print("Input cannot be a number. Please press L or S: \n\n")
+            continue
+        else:
+            if path == "l" or path == "L":
+                print("Great! You will be shown the LONGEST path! \n\n")
+                return False
+            elif path == "s" or path == "S":
+                print("Awesome! You will be shown the SHORTEST path! \n\n")
+                return True
+
+
+
 def same(item, target):
   return len([item for (item, target) in zip(item, target) if item == target]) #returns number of letters and indexes in two words that match exactly
+
+
+
 
 def build(pattern, words, seen, list):
   return [word for word in words #
                  if re.search(pattern, word) and word not in seen.keys() and
                     word not in list]
 
+
+
 def find(word, words, seen, target, path):
+  global path_select
+  global uncommon
   list = [] #creates an empty list
   for i in range(len(word)): #for loop which iterates through based on the length of the chosen word.
     list += build(word[:i] + "." + word[i + 1:], words, seen, list) #uses '.' as a wild card
   if len(list) == 0: #if the length of the list is 0 or empty
     return False
-  list = sorted([(same(w, target), w) for w in list], reverse=True) #MAKE A LIST OF UNCOMMON CHARACTERS TO EXCLUDE DURING THE SEARCH AND COMPARE INDEXES TO EXLUDE FROM SEARCH!!! 3 - 4 LINES AT MAX#creates a list of nested tuples with the match value returned from the same function
+
+  if path_select == True:
+    list = sorted([(same(w, target), w) for w in list], reverse=True) #MAKE A LIST OF UNCOMMON CHARACTERS TO EXCLUDE DURING THE SEARCH AND COMPARE INDEXES TO EXLUDE FROM SEARCH!!! 3 - 4 LINES AT MAX#creates a list of nested tuples with the match value returned from the same function
+  else:
+    uncommon = []
+    list = sorted([(same(w, target), w) for w in list])
   for (match, item) in list: #iterating through the match and word pairs in list
     for letter in uncommon:
         if letter in item:
@@ -42,16 +108,7 @@ def find(word, words, seen, target, path):
     path.pop()
 
 
-def word_check(word):
-    while True:
-        start = input("Please enter start word:")
-        if word.isdigit():
-            print("Word cannot be a number")
-            return input("Enter a word:")
-            continue
-        elif word.isalpha():
-            start.replace(" ", "")
-            break
+
 
 
 file = file_load()
@@ -59,23 +116,23 @@ file = file_load()
 lines = file.readlines()
 
 while True:
-  start = input("Enter start word:")
-  word_check(start)
-  target = input("Enter target word:")
-  word_check(target)
 
+  path_select = path_selection()
+  start = start_word_check()
+  target = target_word_check()
+  forbidden_words = forbidden_build()
 
   words = []
   for line in lines:
     word = line.rstrip()
-    if len(word) == len(start):
+    if len(word) == len(start) and word not in forbidden_words:
       words.append(word)
 
   break
 
 
 count = 0
-uncommon = ["x", "y", "z", "v"]
+uncommon = ["x", "y", "z"]
 path = [start]
 seen = {start : True}
 if find(start, words, seen, target, path):
@@ -85,5 +142,4 @@ else:
   print("No path found")
 
 
-#HEY THESE VARIABLES ARE WRONG - TOMMI 2k17
-#Read the PDF, Wayne is trying to syphon your soul.
+

@@ -9,5 +9,6 @@ class TestWordLadderFunctions(unittest.TestCase):
         return self.assertTrue(len(result) != 0)
 
 
+
 if __name__ == '__main_':
     unittest.main()
