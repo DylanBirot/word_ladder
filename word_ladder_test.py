@@ -41,5 +41,16 @@ class Test_Word_Ladder(unittest.TestCase):
         # self.assertRaises(TypeError, word_ladder.same(1,1))
 
 
+    def test_build(self):
+        pass
+
+    # test something here
+
+
+    def test_find(self):
+        pass
+        # test something here
+
+
 if __name__ == '__main__':
     unittest.main()
